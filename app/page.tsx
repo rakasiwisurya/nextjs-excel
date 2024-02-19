@@ -1,6 +1,100 @@
+"use client";
+
+import { IExcelJSStyle, excelToJson, jsonToExcel } from "@/helpers/fileHandler";
 import Image from "next/image";
+import { ChangeEvent } from "react";
+
+const data = [
+  {
+    bts_no: "S23C280002",
+    store_code: "0281",
+    supplier_code: "3WI01",
+    supplier_name: "3 W INDONESIA PT",
+    bts_date: "01 Jan 2023",
+    termin_period: "01 Jun 2023 - 30 Jun 2023",
+    contract_id: "123456789",
+    status_code: "06",
+    status_desc: "Waiting Finance Verification",
+    trx_type: "AC AIR CURTAIN",
+    taxinv: "test",
+    taxinv_date: "16 Feb 2024",
+    dpp: 9643000,
+    ppn: 1060730,
+    pph: 289290,
+    ttf_no: "SBG0281-20240200002",
+    wht_code: "K2",
+    work_type: "Jasa Konstruksi",
+    wht_rate: 3,
+    taxinv_date_askdmakmdaksmdkmamdkasmdkamksdmkasmkasdmk_akmsdamdksmaksd: 10,
+  },
+];
 
 export default function Home() {
+  const onExportExcel = () => {
+    const headerCells: IExcelJSStyle = {
+      fill: {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FF0000FF" },
+      },
+      alignment: {
+        horizontal: "center",
+      },
+      font: {
+        bold: true,
+      },
+    };
+
+    const dataCells: IExcelJSStyle = {
+      font: {
+        color: {
+          argb: "FFFF0000",
+        },
+      },
+    };
+
+    const cells: IExcelJSStyle = {
+      font: {
+        size: 12,
+      },
+      border: {
+        top: {
+          style: "medium",
+        },
+        right: {
+          style: "medium",
+        },
+        bottom: {
+          style: "medium",
+        },
+        left: {
+          style: "medium",
+        },
+      },
+    };
+
+    jsonToExcel({
+      filename: "export_test_excel",
+      data: {
+        ["Sheet 1"]: {
+          json: data,
+          headerCells,
+          dataCells,
+          cells,
+        },
+        ["Sheet 2"]: {
+          json: data,
+        },
+      },
+    });
+  };
+
+  const onFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    const jsonData = await excelToJson(file);
+    console.log("jsonData", jsonData);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -108,6 +202,12 @@ export default function Home() {
           </p>
         </a>
       </div>
+
+      {/* Download Excel */}
+      <button onClick={onExportExcel}>Export Excel</button>
+
+      {/* Upload Excel */}
+      <input type="file" name="fileName" id="fileId" onChange={onFileChange} />
     </main>
   );
 }
