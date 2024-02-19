@@ -32,6 +32,9 @@ const data = [
 export default function Home() {
   const onExportExcel = () => {
     const headerCells: IExcelJSStyle = {
+      font: {
+        bold: true,
+      },
       fill: {
         type: "pattern",
         pattern: "solid",
@@ -39,9 +42,6 @@ export default function Home() {
       },
       alignment: {
         horizontal: "center",
-      },
-      font: {
-        bold: true,
       },
     };
 

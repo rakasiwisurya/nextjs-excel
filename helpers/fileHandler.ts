@@ -13,14 +13,6 @@ export interface IExcelJSStyle {
   fill?: ExcelJS.Fill;
 }
 
-export type TExcelJSStyleItem =
-  | IExcelJSStyle["alignment"]
-  | IExcelJSStyle["font"]
-  | IExcelJSStyle["alignment"]
-  | IExcelJSStyle["protection"]
-  | IExcelJSStyle["border"]
-  | IExcelJSStyle["fill"];
-
 export interface IJsonToExcel {
   filename: string;
   data: {
@@ -58,19 +50,6 @@ export const jsonToExcel = ({ filename, data }: IJsonToExcel) => {
       worksheet.addRow(values);
     });
 
-    // Apply styling to header row
-    // worksheet.getRow(1).font = { bold: true };
-    // worksheet.getRow(1).eachCell((cell) => {
-    //   cell.fill = {
-    //     type: "pattern",
-    //     pattern: "solid",
-    //     fgColor: { argb: "FF0000FF" }, // Blue color
-    //   };
-    //   cell.alignment = {
-    //     horizontal: "center",
-    //   };
-    // });
-
     // Apply styling to header row if any
     if (headerCells) {
       worksheet.getRow(1).eachCell((cell: any) => {
@@ -79,15 +58,6 @@ export const jsonToExcel = ({ filename, data }: IJsonToExcel) => {
         });
       });
     }
-
-    // Apply styling to data rows
-    // worksheet.eachRow((row, rowNumber) => {
-    //   if (rowNumber === 1) {
-    //     row.eachCell((cell) => {
-    //       // set cell setting
-    //     });
-    //   }
-    // });
 
     // Apply styling to data rows
     if (dataCells) {
@@ -101,13 +71,6 @@ export const jsonToExcel = ({ filename, data }: IJsonToExcel) => {
         }
       });
     }
-
-    // Apply styling to all rows
-    // worksheet.eachRow((row) => {
-    //   row.eachCell((cell) => {
-    //     cell.font = { size: 12 }; // Set font size to 12
-    //   });
-    // });
 
     // Apply styling to all rows
     if (cells) {
